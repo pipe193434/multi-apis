@@ -110,3 +110,4 @@ app.delete("/users/:id", async (req, res) => {
 app.get("/health", (_req, res) => res.json({ status: "ok", service: "users-api" }));
 
 app.listen(PORT, () => console.log(`✅ users-api on http://localhost:${PORT}`));
+    
