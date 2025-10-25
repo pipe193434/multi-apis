@@ -20,4 +20,5 @@ export async function connectMongo() {
     console.error("❌ Error conectando a CosmosDB:", err);
     throw err;
   }
-}           
+}                 
+
