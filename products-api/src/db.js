@@ -1,21 +1,23 @@
+import mongoose from "mongoose";
 import dotenv from "dotenv";
-import pkg from "pg";
+
 dotenv.config();
 
-const { Pool } = pkg;
+const uri = process.env.MONGO_URI;
 
-const URL =
-  process.env.DATABASE_URL ||
-  process.env.USERS_DATABASE_URL || // usa tu var actual del compose/.env
-  null;
+if (!uri) {
+  console.warn("[DB] MONGO_URI no está definida");
+}
 
-export const pool = URL
-  ? new Pool({ connectionString: URL, ssl: { rejectUnauthorized: false } })
-  : new Pool({
-      host: process.env.PGHOST,
-      port: Number(process.env.PGPORT ?? 5432),
-      user: process.env.PGUSER,
-      password: process.env.PGPASSWORD,
-      database: process.env.PGDATABASE,
-      ssl: { rejectUnauthorized: false }
+export async function connectMongo() {
+  try {
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 30000 // 30s para evitar AggregateError por timeout
+      // useNewUrlParser/useUnifiedTopology ya no son necesarios en Mongoose >= 6
     });
+    console.log("✅ Conectado a CosmosDB (Mongo API)");
+  } catch (err) {
+    console.error("❌ Error conectando a CosmosDB:", err);
+    throw err;
+  }
+}
