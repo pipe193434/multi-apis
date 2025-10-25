@@ -10,4 +10,4 @@ const ProductSchema = new mongoose.Schema({
 // ProductSchema.index({ category: 1 });
 
 export const Product = mongoose.model("Product", ProductSchema, "products");
-// tercer parámetro fija la colección explícitamente
+// tercer parámetro fija la colección explícitamente      
